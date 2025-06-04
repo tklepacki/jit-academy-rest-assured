@@ -6,84 +6,53 @@ W celu weryfikacji środowiska na którym będziemy pracować w takcie warsztat�
 
 ## Przydatne Linki
 
-- Notatki: https://docs.google.com/document/d/1nD0LaXUQAcfXc-sxXYAF36NUdBITMNhJqeBmf4KgAPg/edit?usp=sharing
-
-- Zadania: https://drive.google.com/drive/folders/1KRmAKd1OCbN4wbFIDcnzkXbpRStYiEVg?usp=sharing
-
-- Ankieta po warsztatach: https://forms.gle/3jV4cMqjC4AetbMz6
+- Notatki: [https://docs.google.com/document/d/1nD0LaXUQAcfXc-sxXYAF36NUdBITMNhJqeBmf4KgAPg/edit?usp=sharing](https://docs.google.com/document/d/1WU_bLqaD57SbHK-DTpEDUedx_KHcWOK1Ys0es2zSgSU/edit?usp=sharing)
   
-- Prezentacja: https://drive.google.com/file/d/1a5lt9EKGSFjAUeumNHD0dMldYQwtZX2s/view?usp=drive_link
-
-- Finalna wersja kodu źródłowego: https://github.com/tklepacki/conselenium-2023/tree/feature/all-parts 
-
 ## Wymagania
-
-### Wiedza
-
-Oczekuję od Ciebie:
-
-- Znajomości podstaw języka Java oraz projektów typu Maven;
-- Mile widziana znajomość podstaw GIT;
-
-Niestety z uwagi na ograniczony czas warsztatów nie będzie czasu na tłumaczenie tych zagadnień od zera.
 
 ### Narzędzia
 
-Proszę o przyniesienie ze sobą komputera z dowolnym systemem operacyjnym. Proszę o instalację:
+Na warsztaty przybądź zaopatrzony w laptopa. **WAŻNE: Upewnij się, iż laptop nie jest obwarowany, żadnym blokadami, typu brak uprawnień do instalacji narzędzi, ograniczenia dostępu do sieci (VPN) itp.**
 
-- Wybranego IDE - najlepiej IntelliJ IDEA https://www.jetbrains.com/idea/
-  lub Eclipse: https://www.eclipse.org/downloads/
+Dodatkowo proszę o instalację:
 
-- Java JDK - wersja 19
-  - http://www.oracle.com/technetwork/java/javase/downloads/
+- Wybranego IDE - najlepiej IntelliJ IDEA - Community Edition [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/) lub Visual Studio Code: [https://www.eclipse.org/downloads/](https://code.visualstudio.com/)
+
+- Java JDK - wersja 24.0.1
+  - [http://www.oracle.com/technetwork/java/javase/downloads/](https://www.oracle.com/java/technologies/downloads/)
 
 - GIT
-  - Windows: https://git-scm.com/download/win
+  - Windows: [https://git-scm.com/download/win](https://git-scm.com/download/win)
     **UWAGA: W trakcie instalacji w oknie "Adjusting your PATH environment" zaznaczcie opcje: "Use Git and optional Unix tools from the Windows Command Prompt (ostatni radio button)"**
-  - Linux: https://git-scm.com/download/linux
-  - Mac: https://git-scm.com/download/mac
-
-- Docker
-  - https://docs.docker.com/install/linux/docker-ce/ubuntu/
-  - https://docs.docker.com/docker-for-windows/install/
-  - https://docs.docker.com/docker-for-mac/install/
-
+  - Linux: [https://git-scm.com/download/linux](https://git-scm.com/download/linux)
+  - Mac: [https://git-scm.com/download/mac](https://git-scm.com/download/mac)
+    
 - Node.js
-  - https://nodejs.org/en
+  - [https://nodejs.org/en](https://nodejs.org/en)
 
 ## Weryfikacja środowiska
 
 ### Java
 
-- Wpisz w konsoli: `java -version`. Upewnij się, że została podana informacja o wersji zainstalowanej JAVY
+- Wpisz w konsoli: `java -version`. Upewnij się, że została podana informacja o wersji zainstalowanej JAVA
 - Wpisz w konsoli: `javac -version`. Upewnij się, że została podana informacja o wersji zainstalowanego kompilatora JAVA
 
 ### Git:
 
-- Sklonuj repozytorium `git clone https://github.com/tklepacki/conselenium-2023.git`
+- Utwórz fork repozytorium: [https://github.com/tklepacki/jit-academy-rest-assured](https://github.com/tklepacki/jit-academy-rest-assured), a następnie sklonuj zforkowowane repozytorium 
 - Wejdź do folderu z repozytorium i upewnij się, że projekt został pobrany
 
 ### IDE
 
 - Zaimportuj projekt Maven w swoim IDE.
 
-### Docker
-
-- Wpisz w konsoli: `docker -v`
-- Upewnij się, iż została podana informacja o wersji zainstalowanego Dockera
-- Pobierz obraz dockerowy następującą komendą: `docker pull jenkins/jenkins:lts`
-- Tylko dla systemów Linux - wpisz następujące komendy:  
-  `sudo groupadd docker`  
-  `sudo usermod -aG docker $USER`  
-  Uruchom ponownie swoją maszynę
-
 ### Maven
 
 - Wejdź do repozytorium.
 - Uruchom polecenie `mvnw -v`. Upewnij się, że została podana informacja o wersji zainstalowanego Mavena.
 - Z poziomu projektu wywołaj poniższą komendę w CMD - wykonanie jej spowoduje zbudowanie projektu oraz wykonanie jednego z testów:
-  - mvnw clean install  (Windows)
-  - ./mvnw clean install (Linux)
+  - `mvnw clean install`  (Windows)
+  - `./mvnw clean install` (Linux)
 
 ### Node.js
 
