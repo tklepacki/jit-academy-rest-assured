@@ -16,7 +16,7 @@ Na warsztaty przybądź zaopatrzony w laptopa. **WAŻNE: Upewnij się, iż lapto
 
 Dodatkowo proszę o instalację:
 
-- Wybranego IDE - najlepiej IntelliJ IDEA [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/) lub Visual Studio Code: [https://www.eclipse.org/downloads/](https://code.visualstudio.com/)
+- Wybranego IDE - najlepiej IntelliJ IDEA - Community Edition [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/) lub Visual Studio Code: [https://www.eclipse.org/downloads/](https://code.visualstudio.com/)
 
 - Java JDK - wersja 24.0.1
   - [http://www.oracle.com/technetwork/java/javase/downloads/](https://www.oracle.com/java/technologies/downloads/)
