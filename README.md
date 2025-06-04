@@ -12,7 +12,9 @@ W celu weryfikacji środowiska na którym będziemy pracować w takcie warsztat�
 
 ### Narzędzia
 
-Proszę o przyniesienie ze sobą komputera z dowolnym systemem operacyjnym. Proszę o instalację:
+Na warsztaty przybądź zaopatrzony w laptopa. **WAŻNE: Upewnij się, iż laptop nie jest obwarowany, żadnym blokadami, typu brak uprawnień do instalacji narzędzi, ograniczenia dostępu do sieci (VPN) itp.**
+
+Dodatkowo proszę o instalację:
 
 - Wybranego IDE - najlepiej IntelliJ IDEA [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/) lub Visual Studio Code: [https://www.eclipse.org/downloads/](https://code.visualstudio.com/)
 
@@ -49,8 +51,8 @@ Proszę o przyniesienie ze sobą komputera z dowolnym systemem operacyjnym. Pros
 - Wejdź do repozytorium.
 - Uruchom polecenie `mvnw -v`. Upewnij się, że została podana informacja o wersji zainstalowanego Mavena.
 - Z poziomu projektu wywołaj poniższą komendę w CMD - wykonanie jej spowoduje zbudowanie projektu oraz wykonanie jednego z testów:
-  - mvnw clean install  (Windows)
-  - ./mvnw clean install (Linux)
+  - `mvnw clean install`  (Windows)
+  - `./mvnw clean install` (Linux)
 
 ### Node.js
 
