@@ -1,0 +1,29 @@
+name: Rest Assured Tests
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 24
+        uses: actions/setup-java@v4
+        with:
+          java-version: '24'
+          distribution: 'temurin'
+
+      - name: Make Maven Wrapper
+        run: chmod +x ./mvnw
+
+      - name: Build the project
+        run: ./mvnw clean install -B
+
+      - name: Run tests
+        run: ./mvnw test -B
