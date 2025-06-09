@@ -1,8 +1,9 @@
-package posts;
+package part10.posts;
 
 import io.restassured.response.Response;
 
-public interface IPostService {
+public interface IPostsService {
+
     Response getPost(String postId);
 
     Response getPostList();
@@ -12,4 +13,5 @@ public interface IPostService {
     Response editPost(String postId, Post post);
 
     Response deletePost(String postId);
+
 }

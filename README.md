@@ -4,55 +4,74 @@ Cieszę się, że wybrałeś właśnie mój warsztat :)
 
 W celu weryfikacji środowiska na którym będziemy pracować w takcie warsztatów poproszę Cię o upewnienie się, że spełniasz wymagania dotyczące narzędzi (*Wymagania*).
 
-## Przydatne Linki
-
-- Notatki: [https://docs.google.com/document/d/1nD0LaXUQAcfXc-sxXYAF36NUdBITMNhJqeBmf4KgAPg/edit?usp=sharing](https://docs.google.com/document/d/1WU_bLqaD57SbHK-DTpEDUedx_KHcWOK1Ys0es2zSgSU/edit?usp=sharing)
-  
 ## Wymagania
+
+### Wiedza
+
+Oczekuję od Ciebie:
+
+- Znajomości podstaw języka Java oraz projektów typu Maven;
+- Mile widziana znajomość podstaw GIT;
+
+Niestety z uwagi na ograniczony czas warsztatów nie będzie czasu na tłumaczenie tych zagadnień od zera.
 
 ### Narzędzia
 
-Na warsztaty przybądź zaopatrzony w laptopa. **WAŻNE: Upewnij się, iż laptop nie jest obwarowany, żadnym blokadami, typu brak uprawnień do instalacji narzędzi, ograniczenia dostępu do sieci (VPN) itp.**
+Proszę o przyniesienie ze sobą komputera z dowolnym systemem operacyjnym. Proszę o instalację:
 
-Dodatkowo proszę o instalację:
+- Wybranego IDE - najlepiej IntelliJ IDEA https://www.jetbrains.com/idea/
+  lub Eclipse: https://www.eclipse.org/downloads/
 
-- Wybranego IDE - najlepiej IntelliJ IDEA - Community Edition [https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/) lub Visual Studio Code: [https://www.eclipse.org/downloads/](https://code.visualstudio.com/)
-
-- Java JDK - wersja 24.0.1
-  - [http://www.oracle.com/technetwork/java/javase/downloads/](https://www.oracle.com/java/technologies/downloads/)
+- Java JDK - wersja 21
+  - http://www.oracle.com/technetwork/java/javase/downloads/
 
 - GIT
-  - Windows: [https://git-scm.com/download/win](https://git-scm.com/download/win)
+  - Windows: https://git-scm.com/download/win
     **UWAGA: W trakcie instalacji w oknie "Adjusting your PATH environment" zaznaczcie opcje: "Use Git and optional Unix tools from the Windows Command Prompt (ostatni radio button)"**
-  - Linux: [https://git-scm.com/download/linux](https://git-scm.com/download/linux)
-  - Mac: [https://git-scm.com/download/mac](https://git-scm.com/download/mac)
-    
+  - Linux: https://git-scm.com/download/linux
+  - Mac: https://git-scm.com/download/mac
+
+- Docker
+  - https://docs.docker.com/install/linux/docker-ce/ubuntu/
+  - https://docs.docker.com/docker-for-windows/install/
+  - https://docs.docker.com/docker-for-mac/install/
+
 - Node.js
-  - [https://nodejs.org/en](https://nodejs.org/en)
+  - https://nodejs.org/en
 
 ## Weryfikacja środowiska
 
 ### Java
 
-- Wpisz w konsoli: `java -version`. Upewnij się, że została podana informacja o wersji zainstalowanej JAVA
+- Wpisz w konsoli: `java -version`. Upewnij się, że została podana informacja o wersji zainstalowanej JAVY
 - Wpisz w konsoli: `javac -version`. Upewnij się, że została podana informacja o wersji zainstalowanego kompilatora JAVA
 
 ### Git:
 
-- Utwórz fork repozytorium: [https://github.com/tklepacki/jit-academy-rest-assured](https://github.com/tklepacki/jit-academy-rest-assured), a następnie sklonuj zforkowowane repozytorium 
+- Sklonuj repozytorium `git clone https://github.com/tklepacki/conselenium-2023.git`
 - Wejdź do folderu z repozytorium i upewnij się, że projekt został pobrany
 
 ### IDE
 
 - Zaimportuj projekt Maven w swoim IDE.
 
+### Docker
+
+- Wpisz w konsoli: `docker -v`
+- Upewnij się, iż została podana informacja o wersji zainstalowanego Dockera
+- Pobierz obraz dockerowy następującą komendą: `docker pull jenkins/jenkins:lts`
+- Tylko dla systemów Linux - wpisz następujące komendy:  
+  `sudo groupadd docker`  
+  `sudo usermod -aG docker $USER`  
+  Uruchom ponownie swoją maszynę
+
 ### Maven
 
 - Wejdź do repozytorium.
 - Uruchom polecenie `mvnw -v`. Upewnij się, że została podana informacja o wersji zainstalowanego Mavena.
 - Z poziomu projektu wywołaj poniższą komendę w CMD - wykonanie jej spowoduje zbudowanie projektu oraz wykonanie jednego z testów:
-  - `mvnw clean install`  (Windows)
-  - `./mvnw clean install` (Linux)
+  - mvnw clean install  (Windows)
+  - ./mvnw clean install (Linux)
 
 ### Node.js
 

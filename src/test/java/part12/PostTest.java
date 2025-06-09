@@ -1,5 +1,7 @@
+package part12;
+
 import org.junit.jupiter.api.*;
-import posts.Post;
+import part12.posts.Post;
 
 import static org.hamcrest.Matchers.*;
 
@@ -10,8 +12,7 @@ public class PostTest {
 
     @Test
     public void addPostTest() {
-
-        String addedPostId = RestService.getPostService().addPost(addPostBody).
+        String addedPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 body("views", equalTo(addPostBody.getViews())).
                 body("title", equalTo(addPostBody.getTitle())).
@@ -19,7 +20,7 @@ public class PostTest {
                 extract().
                 path("id");
 
-        RestService.getPostService().getPost(addedPostId).
+        RestService.getPostsService().getPost(addedPostId).
                 then().
                 body("id", equalTo(addedPostId)).
                 body("views", equalTo(addPostBody.getViews())).
@@ -30,13 +31,13 @@ public class PostTest {
     @Test
     public void editPostTest() {
 
-        String addedPostId = RestService.getPostService().addPost(addPostBody).
+        String addedPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
                 path("id");
 
-        String updatedPostId = RestService.getPostService().editPost(addedPostId, editPostBody).
+        String updatedPostId = RestService.getPostsService().editPost(addedPostId, editPostBody).
                 then().
                 body("id", equalTo(addedPostId)).
                 body("views", equalTo(editPostBody.getViews())).
@@ -45,7 +46,7 @@ public class PostTest {
                 extract().
                 path("id");
 
-        RestService.getPostService().getPost(updatedPostId).
+        RestService.getPostsService().getPost(updatedPostId).
                 then().
                 body("id", equalTo(addedPostId)).
                 body("views", equalTo(editPostBody.getViews())).
@@ -54,15 +55,14 @@ public class PostTest {
     }
 
     @Test
-    public void getPostListTest() {
-
-        String addedPostId = RestService.getPostService().addPost(addPostBody).
+    public void getPostTest() {
+        String addedPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
                 path("id");
 
-        RestService.getPostService().getPostList().
+        RestService.getPostsService().getPostList().
                 then().
                 body("find { it.id == '" + addedPostId + "' }.id", equalTo(addedPostId)).
                 body("find { it.id == '" + addedPostId + "' }.title", equalTo(addPostBody.getTitle())).
@@ -73,19 +73,18 @@ public class PostTest {
     @Test
     public void deletePostTest() {
 
-        String addedPostId = RestService.getPostService().addPost(addPostBody).
+        String addedPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
                 path("id");
 
-        RestService.getPostService().deletePost(addedPostId).
+        RestService.getPostsService().deletePost(addedPostId).
                 then().
                 statusCode(200);
 
-        RestService.getPostService().getPostList().
+        RestService.getPostsService().getPostList().
                 then().
                 body("id", not(hasItems(addedPostId)));
     }
 }
-
