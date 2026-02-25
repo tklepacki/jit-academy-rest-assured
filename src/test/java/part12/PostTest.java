@@ -3,12 +3,13 @@ package part12;
 import org.junit.jupiter.api.*;
 import part12.posts.Post;
 
+import static io.restassured.RestAssured.withArgs;
 import static org.hamcrest.Matchers.*;
 
 public class PostTest {
 
-    private final Post addPostBody = (Post) FileHelper.generateObjectFromResource("addPostBody.json", Post.class);
-    private final Post editPostBody = (Post) FileHelper.generateObjectFromResource("editPostBody.json", Post.class);
+    private final Post addPostBody = FileHelper.generateObjectFromResource("addPostBody.json", Post.class);
+    private final Post editPostBody = FileHelper.generateObjectFromResource("editPostBody.json", Post.class);
 
     @Test
     public void addPostTest() {
@@ -64,9 +65,9 @@ public class PostTest {
 
         RestService.getPostsService().getPostList().
                 then().
-                body("find { it.id == '" + addedPostId + "' }.id", equalTo(addedPostId)).
-                body("find { it.id == '" + addedPostId + "' }.title", equalTo(addPostBody.getTitle())).
-                body("find { it.id == '" + addedPostId + "' }.views", equalTo(addPostBody.getViews())).
+                body("find { it.id == '%s' }.id", withArgs(addedPostId), equalTo(addedPostId)).
+                body("find { it.id == '%s' }.title", withArgs(addedPostId), equalTo(addPostBody.getTitle())).
+                body("find { it.id == '%s' }.views", withArgs(addedPostId), equalTo(addPostBody.getViews())).
                 statusCode(200);
     }
 

@@ -30,7 +30,7 @@ public class UserTest {
     @ParameterizedTest
     @MethodSource("userData")
     public void getUserTest(Integer userId, String email, String firstName, String lastName, String avatar) {
-        part10.RestService.getUsersService().getUser(userId).
+        RestService.getUsersService().getUser(userId).
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/user.json")).
                 rootPath("data").

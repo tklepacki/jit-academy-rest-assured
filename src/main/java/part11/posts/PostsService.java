@@ -11,7 +11,7 @@ public class PostsService implements IPostsService {
 
     private static final String USERS_ENDPOINT = "http://localhost:3000/posts";
 
-    RequestSpecification requestSpec = new RequestSpecBuilder().
+    private final RequestSpecification requestSpec = new RequestSpecBuilder().
             setBaseUri(USERS_ENDPOINT).
             setContentType(ContentType.JSON).
             build();

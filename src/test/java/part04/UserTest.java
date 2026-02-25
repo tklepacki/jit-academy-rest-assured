@@ -16,7 +16,7 @@ public class UserTest {
     public static void createRequestSpecification() {
         requestSpec = new RequestSpecBuilder().
                 setBaseUri("https://reqres.in/api/users").
-                addHeader("x-api-key", "reqres-free-v1").
+                addHeader("x-api-key", "reqres_eb68f411937a40c68226fb013febfe14").
                 build();
     }
 

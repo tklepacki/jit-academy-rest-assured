@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Post {
+
+    private String title;
+    private int views;
+    private String id;
+
     public String getTitle() {
         return title;
     }
@@ -12,7 +17,9 @@ public class Post {
         this.title = title;
     }
 
-    public int getViews() { return views; }
+    public int getViews() {
+        return views;
+    }
 
     public void setViews(int views) {
         this.views = views;
@@ -25,8 +32,4 @@ public class Post {
     public void setId(String id) {
         this.id = id;
     }
-
-    private String title;
-    private int views;
-    private String id;
 }

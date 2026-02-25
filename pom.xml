@@ -8,7 +8,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     </properties>
 
@@ -66,7 +66,7 @@
                 <version>3.5.3</version>
                 <configuration>
                     <includes>
-                        <include>**/part01/UserTest.java</include>
+                        <include>**/part12/*Test.java</include>
                     </includes>
                 </configuration>
             </plugin>

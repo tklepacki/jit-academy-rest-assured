@@ -3,6 +3,7 @@ package part11;
 import org.junit.jupiter.api.Test;
 import part11.posts.Post;
 
+import static io.restassured.RestAssured.withArgs;
 import static org.hamcrest.Matchers.*;
 
 public class PostTest {
@@ -71,9 +72,9 @@ public class PostTest {
 
         RestService.getPostsService().getPostList().
                 then().
-                body("find { it.id == '" + addedPostId + "' }.id", equalTo(addedPostId)).
-                body("find { it.id == '" + addedPostId + "' }.title", equalTo(post.getTitle())).
-                body("find { it.id == '" + addedPostId + "' }.views", equalTo(post.getViews())).
+                body("find { it.id == '%s' }.id", withArgs(addedPostId), equalTo(addedPostId)).
+                body("find { it.id == '%s' }.title", withArgs(addedPostId), equalTo(post.getTitle())).
+                body("find { it.id == '%s' }.views", withArgs(addedPostId), equalTo(post.getViews())).
                 statusCode(200);
     }
 

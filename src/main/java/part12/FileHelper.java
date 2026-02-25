@@ -3,26 +3,22 @@ package part12;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-
-import static java.nio.file.Files.readAllBytes;
+import java.io.InputStream;
 
 public class FileHelper {
 
-    private static final String folderPath = "src/test/resources/json/";
+    private static final String FOLDER_PATH = "/json/";
 
-    public static Object generateObjectFromResource(String jsonFile, Class resource ) {
-        Object objectData = null;
-        try {
-            String jsonBody = new String(readAllBytes(Paths.get(folderPath + jsonFile)));
+    public static <T> T generateObjectFromResource(String jsonFile, Class<T> resource) {
+        try (InputStream inputStream = FileHelper.class.getResourceAsStream(FOLDER_PATH + jsonFile)) {
+            if (inputStream == null) {
+                throw new IllegalArgumentException("Resource not found: " + FOLDER_PATH + jsonFile);
+            }
             ObjectMapper objectMapper = new ObjectMapper();
-            objectData = objectMapper.readValue(jsonBody, resource);
-
-
+            return objectMapper.readValue(inputStream, resource);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Failed to load resource: " + jsonFile, e);
         }
-        return objectData;
     }
 
 }
