@@ -1,7 +1,7 @@
 package part07;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
+import part07.common.BaseTest;
+
 import org.junit.jupiter.api.*;
 
 import static io.restassured.RestAssured.given;
@@ -10,17 +10,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 
-public class UserTest {
-
-    private static RequestSpecification requestSpec;
-
-    @BeforeAll
-    public static void createRequestSpecification() {
-        requestSpec = new RequestSpecBuilder().
-                setBaseUri("https://reqres.in/api/users").
-                addHeader("x-api-key", "reqres_eb68f411937a40c68226fb013febfe14").
-                build();
-    }
+public class UserTest extends BaseTest {
 
     @Test
     public void getUserTest() {

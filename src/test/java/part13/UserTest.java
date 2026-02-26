@@ -1,6 +1,4 @@
-package part08;
-
-import part08.common.BaseTest;
+package part13;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -8,12 +6,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class UserTest extends BaseTest {
+public class UserTest {
 
     static Stream<Arguments> userData() {
         return Stream.of(
@@ -33,13 +30,7 @@ public class UserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("userData")
     public void getUserTest(Integer userId, String email, String firstName, String lastName, String avatar) {
-        given().
-                spec(requestSpec).
-                pathParam("userId", userId).
-
-                when().
-                get("/{userId}").
-
+        RestService.getUsersService().getUser(userId).
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/user.json")).
                 rootPath("data").
@@ -55,13 +46,7 @@ public class UserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("userListData")
     public void getUserListTest(Integer pageId, Integer perPage, Integer total, Integer totalPages, Integer userId, String email, String firstName, String lastName, String avatar) {
-        given().
-                spec(requestSpec).
-                queryParam("page", pageId).
-
-                when().
-                get().
-
+        RestService.getUsersService().getUserList(pageId).
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/userList.json")).
                 body("page", equalTo(pageId)).

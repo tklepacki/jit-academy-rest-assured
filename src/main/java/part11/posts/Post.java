@@ -2,6 +2,7 @@ package part11.posts;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(builder = Post.Builder.class)
@@ -29,6 +30,7 @@ public class Post {
         return id;
     }
 
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private String title;

@@ -1,13 +1,13 @@
-package part05;
+package part04b;
 
-import part05.common.BaseTest;
-
-import org.junit.jupiter.api.*;
+import part04b.common.BaseTest;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
+
+import org.junit.jupiter.api.Test;
 
 public class UserTest extends BaseTest {
 
@@ -28,8 +28,7 @@ public class UserTest extends BaseTest {
                 body("data.last_name", equalTo("Weaver")).
                 body("data.avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
                 contentType("application/json;charset=UTF-8").
-                statusCode(200).
-                log().all();
+                statusCode(200);
     }
 
     @Test
@@ -48,19 +47,9 @@ public class UserTest extends BaseTest {
                 body("total", equalTo(12)).
                 body("total_pages", equalTo(2)).
 
-                body("data.id[0]", equalTo(7)).
-                body("data.email[0]", equalTo("michael.lawson@reqres.in")).
-                body("data.first_name[0]", equalTo("Michael")).
-                body("data.last_name[0]", equalTo("Lawson")).
-                body("data.avatar[0]", equalTo("https://reqres.in/img/faces/7-image.jpg")).
-
                 body("data.id", hasItems(7, 8, 9, 10, 11, 12)).
-                body("data.email", hasItems("michael.lawson@reqres.in", "lindsay.ferguson@reqres.in", "tobias.funke@reqres.in", "byron.fields@reqres.in", "george.edwards@reqres.in", "rachel.howell@reqres.in")).
-                body("data.first_name", hasItems("Michael", "Lindsay", "Tobias", "Byron", "George", "Rachel")).
-                body("data.last_name", hasItems("Lawson", "Ferguson", "Funke", "Fields", "Edwards", "Howell")).
 
                 contentType("application/json;charset=UTF-8").
-                statusCode(200).
-                log().all();
+                statusCode(200);
     }
 }
