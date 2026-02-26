@@ -1,7 +1,7 @@
-package part11;
+package part10b;
 
 import org.junit.jupiter.api.*;
-import part11.posts.Post;
+import part10b.posts.Post;
 
 import static io.restassured.RestAssured.withArgs;
 import static org.hamcrest.Matchers.*;
@@ -20,10 +20,9 @@ public class PostTest {
     @Test
     public void addPostTest() {
 
-        Post post = new Post.Builder()
-                .title("TestTitle")
-                .views(200)
-                .build();
+        Post post = new Post();
+        post.setTitle("TestTitle");
+        post.setViews(200);
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().
@@ -44,10 +43,9 @@ public class PostTest {
     @Test
     public void editPostTest() {
 
-        Post post = new Post.Builder()
-                .title("TestTitle")
-                .views(200)
-                .build();
+        Post post = new Post();
+        post.setTitle("TestTitle");
+        post.setViews(200);
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().
@@ -55,10 +53,9 @@ public class PostTest {
                 extract().
                 path("id");
 
-        Post updatedPost = new Post.Builder()
-                .title("TestTitleUpdated")
-                .views(300)
-                .build();
+        Post updatedPost = new Post();
+        updatedPost.setTitle("TestTitleUpdated");
+        updatedPost.setViews(300);
 
         RestService.getPostsService().editPost(createdPostId, updatedPost).
                 then().
@@ -78,10 +75,9 @@ public class PostTest {
     @Test
     public void getPostListTest() {
 
-        Post post = new Post.Builder()
-                .title("TestTitle")
-                .views(200)
-                .build();
+        Post post = new Post();
+        post.setTitle("TestTitle");
+        post.setViews(200);
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().
@@ -100,10 +96,9 @@ public class PostTest {
     @Test
     public void deletePostTest() {
 
-        Post post = new Post.Builder()
-                .title("TestTitle")
-                .views(200)
-                .build();
+        Post post = new Post();
+        post.setTitle("TestTitle");
+        post.setViews(200);
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().

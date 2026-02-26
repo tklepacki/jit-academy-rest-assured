@@ -11,9 +11,18 @@ public class PostTest {
     private final Post addPostBody = FileHelper.generateObjectFromResource("addPostBody.json", Post.class);
     private final Post editPostBody = FileHelper.generateObjectFromResource("editPostBody.json", Post.class);
 
+    private String createdPostId;
+
+    @AfterEach
+    void cleanup() {
+        if (createdPostId != null) {
+            RestService.getPostsService().deletePost(createdPostId);
+        }
+    }
+
     @Test
     public void addPostTest() {
-        String addedPostId = RestService.getPostsService().addPost(addPostBody).
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 body("views", equalTo(addPostBody.getViews())).
                 body("title", equalTo(addPostBody.getTitle())).
@@ -21,9 +30,9 @@ public class PostTest {
                 extract().
                 path("id");
 
-        RestService.getPostsService().getPost(addedPostId).
+        RestService.getPostsService().getPost(createdPostId).
                 then().
-                body("id", equalTo(addedPostId)).
+                body("id", equalTo(createdPostId)).
                 body("views", equalTo(addPostBody.getViews())).
                 body("title", equalTo(addPostBody.getTitle())).
                 statusCode(200);
@@ -32,24 +41,22 @@ public class PostTest {
     @Test
     public void editPostTest() {
 
-        String addedPostId = RestService.getPostsService().addPost(addPostBody).
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
                 path("id");
 
-        String updatedPostId = RestService.getPostsService().editPost(addedPostId, editPostBody).
+        RestService.getPostsService().editPost(createdPostId, editPostBody).
                 then().
-                body("id", equalTo(addedPostId)).
+                body("id", equalTo(createdPostId)).
                 body("views", equalTo(editPostBody.getViews())).
                 body("title", equalTo(editPostBody.getTitle())).
-                statusCode(200).
-                extract().
-                path("id");
+                statusCode(200);
 
-        RestService.getPostsService().getPost(updatedPostId).
+        RestService.getPostsService().getPost(createdPostId).
                 then().
-                body("id", equalTo(addedPostId)).
+                body("id", equalTo(createdPostId)).
                 body("views", equalTo(editPostBody.getViews())).
                 body("title", equalTo(editPostBody.getTitle())).
                 statusCode(200);
@@ -57,7 +64,7 @@ public class PostTest {
 
     @Test
     public void getPostTest() {
-        String addedPostId = RestService.getPostsService().addPost(addPostBody).
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
@@ -65,27 +72,29 @@ public class PostTest {
 
         RestService.getPostsService().getPostList().
                 then().
-                body("find { it.id == '%s' }.id", withArgs(addedPostId), equalTo(addedPostId)).
-                body("find { it.id == '%s' }.title", withArgs(addedPostId), equalTo(addPostBody.getTitle())).
-                body("find { it.id == '%s' }.views", withArgs(addedPostId), equalTo(addPostBody.getViews())).
+                body("find { it.id == '%s' }.id", withArgs(createdPostId), equalTo(createdPostId)).
+                body("find { it.id == '%s' }.title", withArgs(createdPostId), equalTo(addPostBody.getTitle())).
+                body("find { it.id == '%s' }.views", withArgs(createdPostId), equalTo(addPostBody.getViews())).
                 statusCode(200);
     }
 
     @Test
     public void deletePostTest() {
 
-        String addedPostId = RestService.getPostsService().addPost(addPostBody).
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
                 path("id");
 
-        RestService.getPostsService().deletePost(addedPostId).
+        RestService.getPostsService().deletePost(createdPostId).
                 then().
                 statusCode(200);
 
         RestService.getPostsService().getPostList().
                 then().
-                body("id", not(hasItems(addedPostId)));
+                body("id", not(hasItems(createdPostId)));
+
+        createdPostId = null;
     }
 }

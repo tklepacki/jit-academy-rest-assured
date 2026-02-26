@@ -48,16 +48,14 @@ public class PostTest {
         updatedPost.setTitle("TestTitleUpdated");
         updatedPost.setViews(300);
 
-        String updatedPostId = RestService.getPostsService().editPost(addedPostId, updatedPost).
+        RestService.getPostsService().editPost(addedPostId, updatedPost).
                 then().
                 body("id", equalTo(addedPostId)).
                 body("views", equalTo(updatedPost.getViews())).
                 body("title", equalTo(updatedPost.getTitle())).
-                statusCode(200).
-                extract().
-                path("id");
+                statusCode(200);
 
-        RestService.getPostsService().getPost(updatedPostId).
+        RestService.getPostsService().getPost(addedPostId).
                 then().
                 body("id", equalTo(addedPostId)).
                 body("views", equalTo(updatedPost.getViews())).
@@ -108,4 +106,3 @@ public class PostTest {
                 body("id", not(hasItems(addedPostId)));
     }
 }
-
