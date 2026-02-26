@@ -1,12 +1,15 @@
-package part13;
+package part15;
 
 import org.junit.jupiter.api.*;
-import part13.posts.Post;
+import part15.posts.Post;
 
 import static io.restassured.RestAssured.withArgs;
 import static org.hamcrest.Matchers.*;
 
 public class PostTest {
+
+    private final Post addPostBody = FileHelper.generateObjectFromResource("addPostBody.json", Post.class);
+    private final Post editPostBody = FileHelper.generateObjectFromResource("editPostBody.json", Post.class);
 
     private String createdPostId;
 
@@ -19,15 +22,10 @@ public class PostTest {
 
     @Test
     public void addPostTest() {
-
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
-
-        createdPostId = RestService.getPostsService().addPost(post).
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
-                body("views", equalTo(post.getViews())).
-                body("title", equalTo(post.getTitle())).
+                body("views", equalTo(addPostBody.getViews())).
+                body("title", equalTo(addPostBody.getTitle())).
                 statusCode(201).
                 extract().
                 path("id");
@@ -35,51 +33,38 @@ public class PostTest {
         RestService.getPostsService().getPost(createdPostId).
                 then().
                 body("id", equalTo(createdPostId)).
-                body("views", equalTo(post.getViews())).
-                body("title", equalTo(post.getTitle())).
+                body("views", equalTo(addPostBody.getViews())).
+                body("title", equalTo(addPostBody.getTitle())).
                 statusCode(200);
     }
 
     @Test
     public void editPostTest() {
 
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
-
-        createdPostId = RestService.getPostsService().addPost(post).
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
                 path("id");
 
-        Post updatedPost = new Post();
-        updatedPost.setTitle("TestTitleUpdated");
-        updatedPost.setViews(300);
-
-        RestService.getPostsService().editPost(createdPostId, updatedPost).
+        RestService.getPostsService().editPost(createdPostId, editPostBody).
                 then().
                 body("id", equalTo(createdPostId)).
-                body("views", equalTo(updatedPost.getViews())).
-                body("title", equalTo(updatedPost.getTitle())).
+                body("views", equalTo(editPostBody.getViews())).
+                body("title", equalTo(editPostBody.getTitle())).
                 statusCode(200);
 
         RestService.getPostsService().getPost(createdPostId).
                 then().
                 body("id", equalTo(createdPostId)).
-                body("views", equalTo(updatedPost.getViews())).
-                body("title", equalTo(updatedPost.getTitle())).
+                body("views", equalTo(editPostBody.getViews())).
+                body("title", equalTo(editPostBody.getTitle())).
                 statusCode(200);
     }
 
     @Test
-    public void getPostListTest() {
-
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
-
-        createdPostId = RestService.getPostsService().addPost(post).
+    public void getPostTest() {
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().
@@ -88,19 +73,15 @@ public class PostTest {
         RestService.getPostsService().getPostList().
                 then().
                 body("find { it.id == '%s' }.id", withArgs(createdPostId), equalTo(createdPostId)).
-                body("find { it.id == '%s' }.title", withArgs(createdPostId), equalTo(post.getTitle())).
-                body("find { it.id == '%s' }.views", withArgs(createdPostId), equalTo(post.getViews())).
+                body("find { it.id == '%s' }.title", withArgs(createdPostId), equalTo(addPostBody.getTitle())).
+                body("find { it.id == '%s' }.views", withArgs(createdPostId), equalTo(addPostBody.getViews())).
                 statusCode(200);
     }
 
     @Test
     public void deletePostTest() {
 
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
-
-        createdPostId = RestService.getPostsService().addPost(post).
+        createdPostId = RestService.getPostsService().addPost(addPostBody).
                 then().
                 statusCode(201).
                 extract().

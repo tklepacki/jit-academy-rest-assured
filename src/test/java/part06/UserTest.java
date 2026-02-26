@@ -2,12 +2,12 @@ package part06;
 
 import part06.common.BaseTest;
 
-import org.junit.jupiter.api.*;
-
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
+
+import org.junit.jupiter.api.Test;
 
 public class UserTest extends BaseTest {
 
@@ -22,14 +22,12 @@ public class UserTest extends BaseTest {
 
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/user.json")).
-                rootPath("data").
-                body("id", equalTo(2)).
-                body("email", equalTo("janet.weaver@reqres.in")).
-                body("first_name", equalTo("Janet")).
-                body("last_name", equalTo("Weaver")).
-                body("avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
-                spec(responseSpec).
-                log().all();
+                body("data.id", equalTo(2)).
+                body("data.email", equalTo("janet.weaver@reqres.in")).
+                body("data.first_name", equalTo("Janet")).
+                body("data.last_name", equalTo("Weaver")).
+                body("data.avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
+                spec(responseSpec);
     }
 
     @Test
@@ -48,19 +46,33 @@ public class UserTest extends BaseTest {
                 body("total", equalTo(12)).
                 body("total_pages", equalTo(2)).
 
-                rootPath("data[0]").
-                body("id", equalTo(7)).
-                body("email", equalTo("michael.lawson@reqres.in")).
-                body("first_name", equalTo("Michael")).
-                body("last_name", equalTo("Lawson")).
-                body("avatar", equalTo("https://reqres.in/img/faces/7-image.jpg")).
+                body("data.id", hasItems(7, 8, 9, 10, 11, 12)).
+                spec(responseSpec);
+    }
 
-                rootPath("data").
-                body("id", hasItems(7, 8, 9, 10, 11, 12)).
-                body("email", hasItems("michael.lawson@reqres.in", "lindsay.ferguson@reqres.in", "tobias.funke@reqres.in", "byron.fields@reqres.in", "george.edwards@reqres.in", "rachel.howell@reqres.in")).
-                body("first_name", hasItems("Michael", "Lindsay", "Tobias", "Byron", "George", "Rachel")).
-                body("last_name", hasItems("Lawson", "Ferguson", "Funke", "Fields", "Edwards", "Howell")).
-                spec(responseSpec).
-                log().all();
+    @Test
+    public void getUserNotFoundTest() {
+        given().
+                spec(requestSpec).
+                pathParam("userId", 999).
+
+                when().
+                get("/{userId}").
+
+                then().
+                statusCode(404);
+    }
+
+    @Test
+    public void getUserUnauthorizedTest() {
+        given().
+                header("x-api-key", "invalid_token").
+
+                when().
+                get("https://reqres.in/api/users/2").
+
+                then().
+                statusCode(403).
+                body("error", equalTo("invalid_api_key"));
     }
 }

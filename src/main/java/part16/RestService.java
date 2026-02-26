@@ -1,7 +1,7 @@
-package part13;
+package part16;
 
-import part13.users.UsersService;
-import part13.posts.PostsService;
+import part16.posts.PostsService;
+import part16.users.UsersService;
 
 public class RestService {
 

@@ -1,6 +1,4 @@
-package part10;
-
-import part10.common.BaseTest;
+package part14;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +12,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class UserTest extends BaseTest {
+public class UserTest {
 
     static Stream<Arguments> userData() {
         return Stream.of(
@@ -34,13 +32,7 @@ public class UserTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("userData")
     public void getUserTest(Integer userId, String email, String firstName, String lastName, String avatar) {
-        given().
-                spec(requestSpec).
-                pathParam("userId", userId).
-
-                when().
-                get("/{userId}").
-
+        RestService.getUsersService().getUser(userId).
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/user.json")).
                 rootPath("data").
@@ -49,19 +41,14 @@ public class UserTest extends BaseTest {
                 body("first_name", equalTo(firstName)).
                 body("last_name", equalTo(lastName)).
                 body("avatar", equalTo(avatar)).
-                spec(responseSpec);
+                contentType("application/json;charset=UTF-8").
+                statusCode(200);
     }
 
     @ParameterizedTest
     @MethodSource("userListData")
     public void getUserListTest(Integer pageId, Integer perPage, Integer total, Integer totalPages, Integer userId, String email, String firstName, String lastName, String avatar) {
-        given().
-                spec(requestSpec).
-                queryParam("page", pageId).
-
-                when().
-                get().
-
+        RestService.getUsersService().getUserList(pageId).
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/userList.json")).
                 body("page", equalTo(pageId)).
@@ -75,18 +62,14 @@ public class UserTest extends BaseTest {
                 body("first_name[0]", equalTo(firstName)).
                 body("last_name[0]", equalTo(lastName)).
                 body("avatar[0]", equalTo(avatar)).
-                spec(responseSpec);
+
+                contentType("application/json;charset=UTF-8").
+                statusCode(200);
     }
 
     @Test
     public void getUserNotFoundTest() {
-        given().
-                spec(requestSpec).
-                pathParam("userId", 999).
-
-                when().
-                get("/{userId}").
-
+        RestService.getUsersService().getUser(999).
                 then().
                 statusCode(404);
     }

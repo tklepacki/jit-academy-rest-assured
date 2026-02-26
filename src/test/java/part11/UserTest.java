@@ -1,11 +1,13 @@
 package part11;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -63,5 +65,25 @@ public class UserTest {
 
                 contentType("application/json;charset=UTF-8").
                 statusCode(200);
+    }
+
+    @Test
+    public void getUserNotFoundTest() {
+        RestService.getUsersService().getUser(999).
+                then().
+                statusCode(404);
+    }
+
+    @Test
+    public void getUserUnauthorizedTest() {
+        given().
+                header("x-api-key", "invalid_token").
+
+                when().
+                get("https://reqres.in/api/users/2").
+
+                then().
+                statusCode(403).
+                body("error", equalTo("invalid_api_key"));
     }
 }

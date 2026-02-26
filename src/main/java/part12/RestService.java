@@ -1,7 +1,7 @@
 package part12;
 
-import part12.posts.PostsService;
 import part12.users.UsersService;
+import part12.posts.PostsService;
 
 public class RestService {
 
@@ -13,5 +13,3 @@ public class RestService {
         return new PostsService();
     }
 }
-
-

@@ -1,67 +1,111 @@
 package part09;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import part09.common.BaseTest;
 
-import java.util.stream.Stream;
+import org.junit.jupiter.api.*;
 
+import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.hamcrest.Matchers.hasItems;
 
-public class UserTest {
+public class UserTest extends BaseTest {
 
-    static Stream<Arguments> userData() {
-        return Stream.of(
-                arguments(1, "george.bluth@reqres.in", "George", "Bluth", "https://reqres.in/img/faces/1-image.jpg"),
-                arguments(2, "janet.weaver@reqres.in", "Janet", "Weaver", "https://reqres.in/img/faces/2-image.jpg"),
-                arguments(3, "emma.wong@reqres.in", "Emma", "Wong", "https://reqres.in/img/faces/3-image.jpg")
-        );
-    }
+    @Test
+    public void getUserTest() {
+        given().
+                spec(requestSpec).
+                pathParam("userId", 2).
 
-    static Stream<Arguments> userListData() {
-        return Stream.of(
-                arguments(1, 6, 12, 2, 1, "george.bluth@reqres.in", "George", "Bluth", "https://reqres.in/img/faces/1-image.jpg"),
-                arguments(2, 6, 12, 2, 7, "michael.lawson@reqres.in", "Michael", "Lawson", "https://reqres.in/img/faces/7-image.jpg")
-        );
-    }
+                when().
+                get("/{userId}").
 
-    @ParameterizedTest
-    @MethodSource("userData")
-    public void getUserTest(Integer userId, String email, String firstName, String lastName, String avatar) {
-        RestService.getUsersService().getUser(userId).
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/user.json")).
                 rootPath("data").
-                body("id", equalTo(userId)).
-                body("email", equalTo(email)).
-                body("first_name", equalTo(firstName)).
-                body("last_name", equalTo(lastName)).
-                body("avatar", equalTo(avatar)).
-                contentType("application/json;charset=UTF-8").
-                statusCode(200);
+                body("id", equalTo(2)).
+                body("email", equalTo("janet.weaver@reqres.in")).
+                body("first_name", equalTo("Janet")).
+                body("last_name", equalTo("Weaver")).
+                body("avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
+                spec(responseSpec);
     }
 
-    @ParameterizedTest
-    @MethodSource("userListData")
-    public void getUserListTest(Integer pageId, Integer perPage, Integer total, Integer totalPages, Integer userId, String email, String firstName, String lastName, String avatar) {
-        RestService.getUsersService().getUserList(pageId).
+    @Test
+    public void getUserListTest() {
+        given().
+                spec(requestSpec).
+                queryParam("page", "2").
+
+                when().
+                get().
+
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/userList.json")).
-                body("page", equalTo(pageId)).
-                body("per_page", equalTo(perPage)).
-                body("total", equalTo(total)).
-                body("total_pages", equalTo(totalPages)).
+                body("page", equalTo(2)).
+                body("per_page", equalTo(6)).
+                body("total", equalTo(12)).
+                body("total_pages", equalTo(2)).
 
+                body("data.find { it.id > 8 }.id", equalTo(9)).
+                body("data.findAll { it.id > 8 }.id", hasItems(9, 10, 11, 12)).
+                body("data.findAll { it.id == 10 }.last_name", hasItems("Fields")).
+                body("data.findAll { it.id > 8 }.first_name", hasItems("Tobias", "Byron", "George", "Rachel")).
+                body("data.max { it.id }.id", equalTo(12)).
+                body("data.min { it.id }.first_name", equalTo("Michael")).
+                body("data.collect { it.id }.sum()", equalTo(57)).
+                body("data.findAll { it.id > 8 }.find {it.first_name == 'Tobias'}.avatar", equalTo("https://reqres.in/img/faces/9-image.jpg")).
                 rootPath("data").
-                body("id[0]", equalTo(userId)).
-                body("email[0]", equalTo(email)).
-                body("first_name[0]", equalTo(firstName)).
-                body("last_name[0]", equalTo(lastName)).
-                body("avatar[0]", equalTo(avatar)).
+                body("id[0]", equalTo(7)).
+                body("email[0]", equalTo("michael.lawson@reqres.in")).
+                body("first_name[0]", equalTo("Michael")).
+                body("last_name[0]", equalTo("Lawson")).
+                body("avatar[0]", equalTo("https://reqres.in/img/faces/7-image.jpg")).
 
-                contentType("application/json;charset=UTF-8").
-                statusCode(200);
+                body("id", hasItems(7, 8, 9, 10, 11, 12)).
+                body("email", hasItems("michael.lawson@reqres.in", "lindsay.ferguson@reqres.in", "tobias.funke@reqres.in", "byron.fields@reqres.in", "george.edwards@reqres.in", "rachel.howell@reqres.in")).
+                body("first_name", hasItems("Michael", "Lindsay", "Tobias", "Byron", "George", "Rachel")).
+                body("last_name", hasItems("Lawson", "Ferguson", "Funke", "Fields", "Edwards", "Howell")).
+                spec(responseSpec).
+                log().all();
+    }
+
+    @Test
+    public void getStarWarsPeopleList() {
+        when().
+                get("https://swapi.py4e.com/api/people").
+
+                then().
+                body("results.findAll { it.height > '180' }.name", hasItems("R2-D2", "Darth Vader", "R5-D4", "Biggs Darklighter", "Obi-Wan Kenobi")).
+                body("results.findAll { it.gender == 'female' }.size()", equalTo(2)).
+                statusCode(200).
+                log().all();
+    }
+
+    @Test
+    public void getUserNotFoundTest() {
+        given().
+                spec(requestSpec).
+                pathParam("userId", 999).
+
+                when().
+                get("/{userId}").
+
+                then().
+                statusCode(404);
+    }
+
+    @Test
+    public void getUserUnauthorizedTest() {
+        given().
+                header("x-api-key", "invalid_token").
+
+                when().
+                get("https://reqres.in/api/users/2").
+
+                then().
+                statusCode(403).
+                body("error", equalTo("invalid_api_key"));
     }
 }

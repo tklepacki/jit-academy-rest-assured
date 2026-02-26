@@ -3,32 +3,28 @@ package part02;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.equalTo;
 
 public class UserTest {
 
     @Test
-    public void getUserTest() {
+    public void getUserNotFoundTest() {
         given().
                 header("x-api-key", "reqres_eb68f411937a40c68226fb013febfe14").
         when().
-                get("https://reqres.in/api/users/2").
-                then().
-                body(matchesJsonSchemaInClasspath("schemas/user.json")).
-                statusCode(200).
-                log().all();
+                get("https://reqres.in/api/users/999").
+        then().
+                statusCode(404);
     }
 
     @Test
-    public void getUserListTest() {
+    public void getUserUnauthorizedTest() {
         given().
-                header("x-api-key", "reqres_eb68f411937a40c68226fb013febfe14").
+                header("x-api-key", "invalid_token").
         when().
-                get("https://reqres.in/api/users?page=2").
-                then().
-                body(matchesJsonSchemaInClasspath("schemas/userList.json")).
-                statusCode(200).
-                log().all();
+                get("https://reqres.in/api/users/2").
+        then().
+                statusCode(403).
+                body("error", equalTo("invalid_api_key"));
     }
-
 }

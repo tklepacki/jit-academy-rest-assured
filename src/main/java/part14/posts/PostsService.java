@@ -1,4 +1,4 @@
-package part12.posts;
+package part14.posts;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
