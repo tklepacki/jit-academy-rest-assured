@@ -48,8 +48,7 @@ public class UserTest extends BaseTest {
                 body("first_name", equalTo(firstName)).
                 body("last_name", equalTo(lastName)).
                 body("avatar", equalTo(avatar)).
-                contentType("application/json;charset=UTF-8").
-                statusCode(200);
+                spec(responseSpec);
     }
 
     @ParameterizedTest
@@ -75,8 +74,6 @@ public class UserTest extends BaseTest {
                 body("first_name[0]", equalTo(firstName)).
                 body("last_name[0]", equalTo(lastName)).
                 body("avatar[0]", equalTo(avatar)).
-
-                contentType("application/json;charset=UTF-8").
-                statusCode(200);
+                spec(responseSpec);
     }
 }

@@ -27,8 +27,7 @@ public class UserTest extends BaseTest {
                 body("data.first_name", equalTo("Janet")).
                 body("data.last_name", equalTo("Weaver")).
                 body("data.avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
-                contentType("application/json;charset=UTF-8").
-                statusCode(200);
+                spec(responseSpec);
     }
 
     @Test
@@ -48,8 +47,6 @@ public class UserTest extends BaseTest {
                 body("total_pages", equalTo(2)).
 
                 body("data.id", hasItems(7, 8, 9, 10, 11, 12)).
-
-                contentType("application/json;charset=UTF-8").
-                statusCode(200);
+                spec(responseSpec);
     }
 }

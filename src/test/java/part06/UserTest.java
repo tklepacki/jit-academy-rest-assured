@@ -28,8 +28,7 @@ public class UserTest extends BaseTest {
                 body("first_name", equalTo("Janet")).
                 body("last_name", equalTo("Weaver")).
                 body("avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
-                contentType("application/json;charset=UTF-8").
-                statusCode(200).
+                spec(responseSpec).
                 log().all();
     }
 
@@ -61,9 +60,7 @@ public class UserTest extends BaseTest {
                 body("email", hasItems("michael.lawson@reqres.in", "lindsay.ferguson@reqres.in", "tobias.funke@reqres.in", "byron.fields@reqres.in", "george.edwards@reqres.in", "rachel.howell@reqres.in")).
                 body("first_name", hasItems("Michael", "Lindsay", "Tobias", "Byron", "George", "Rachel")).
                 body("last_name", hasItems("Lawson", "Ferguson", "Funke", "Fields", "Edwards", "Howell")).
-
-                contentType("application/json;charset=UTF-8").
-                statusCode(200).
+                spec(responseSpec).
                 log().all();
     }
 }
