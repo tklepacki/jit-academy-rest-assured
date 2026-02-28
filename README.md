@@ -20,7 +20,7 @@ Niestety z uwagi na ograniczony czas warsztatów nie będzie czasu na tłumaczen
 Proszę o przyniesienie ze sobą komputera z dowolnym systemem operacyjnym. Proszę o instalację:
 
 - Wybranego IDE - najlepiej IntelliJ IDEA https://www.jetbrains.com/idea/
-  lub Eclipse: https://www.eclipse.org/downloads/
+  lub VSCode: https://code.visualstudio.com/download
 
 - Java JDK - wersja 17
   - http://www.oracle.com/technetwork/java/javase/downloads/
