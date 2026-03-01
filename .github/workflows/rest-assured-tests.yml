@@ -22,6 +22,20 @@ jobs:
       - name: Make Maven Wrapper Executable
         run: chmod +x ./mvnw
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install and start json-server
+        run: |
+          npm install -g json-server
+          json-server --watch db.json --port 3000 &
+          sleep 3
+
+      - name: Verify json-server is running
+        run: curl -s http://localhost:3000
+
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
