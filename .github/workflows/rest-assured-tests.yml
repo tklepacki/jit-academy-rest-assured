@@ -13,10 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Make Maven Wrapper Executable
@@ -32,9 +32,6 @@ jobs:
 
       - name: Build the project
         run: ./mvnw clean install -B
-
-      - name: Run tests
-        run: ./mvnw test -B
 
       - name: Upload Surefire XML Reports
         if: always()
