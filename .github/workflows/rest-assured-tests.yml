@@ -75,6 +75,7 @@ jobs:
         if: always()
         run: |
           ./allure-cli/allure-2.34.0/bin/allure generate \
+            --single-file \
             --clean \
             --plugins junit-xml-plugin \
             target/surefire-reports \
