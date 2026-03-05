@@ -31,11 +31,6 @@ Proszę o przyniesienie ze sobą komputera z dowolnym systemem operacyjnym. Pros
   - Linux: https://git-scm.com/download/linux
   - Mac: https://git-scm.com/download/mac
 
-- Docker
-  - https://docs.docker.com/install/linux/docker-ce/ubuntu/
-  - https://docs.docker.com/docker-for-windows/install/
-  - https://docs.docker.com/docker-for-mac/install/
-
 - Node.js
   - https://nodejs.org/en
 
@@ -54,16 +49,6 @@ Proszę o przyniesienie ze sobą komputera z dowolnym systemem operacyjnym. Pros
 ### IDE
 
 - Zaimportuj projekt Maven w swoim IDE.
-
-### Docker
-
-- Wpisz w konsoli: `docker -v`
-- Upewnij się, iż została podana informacja o wersji zainstalowanego Dockera
-- Pobierz obraz dockerowy następującą komendą: `docker pull jenkins/jenkins:lts`
-- Tylko dla systemów Linux - wpisz następujące komendy:  
-  `sudo groupadd docker`  
-  `sudo usermod -aG docker $USER`  
-  Uruchom ponownie swoją maszynę
 
 ### Maven
 
