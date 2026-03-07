@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.*;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
@@ -86,5 +87,18 @@ public class UserTest extends BaseTest {
                 then().
                 statusCode(403).
                 body("error", equalTo("invalid_api_key"));
+    }
+
+
+    @Test
+    public void getStarWarsPeopleList() {
+        when().
+                get("https://swapi.py4e.com/api/people").
+
+                then().
+                body("results.findAll { it.height.toInteger() > 180 }.name", hasItems("Darth Vader", "Biggs Darklighter", "Obi-Wan Kenobi")).
+                body("results.findAll { it.gender == 'female' }.size()", equalTo(2)).
+                statusCode(200).
+                log().all();
     }
 }
