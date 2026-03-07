@@ -18,9 +18,10 @@ public class PostTest {
     @Test
     public void addPostTest() {
 
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
+        Post post = new Post.Builder()
+                .title("TestTitle")
+                .views(200)
+                .build();
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().
@@ -41,9 +42,10 @@ public class PostTest {
     @Test
     public void editPostTest() {
 
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
+        Post post = new Post.Builder()
+                .title("TestTitle")
+                .views(200)
+                .build();
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().
@@ -51,9 +53,10 @@ public class PostTest {
                 extract().
                 path("id");
 
-        Post updatedPost = new Post();
-        updatedPost.setTitle("TestTitleUpdated");
-        updatedPost.setViews(300);
+        Post updatedPost = new Post.Builder()
+                .title("TestTitleUpdated")
+                .views(300)
+                .build();
 
         RestService.getPostsService().editPost(createdPostId, updatedPost).
                 then().
@@ -73,9 +76,10 @@ public class PostTest {
     @Test
     public void getPostListTest() {
 
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
+        Post post = new Post.Builder()
+                .title("TestTitle")
+                .views(200)
+                .build();
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().
@@ -94,9 +98,10 @@ public class PostTest {
     @Test
     public void deletePostTest() {
 
-        Post post = new Post();
-        post.setTitle("TestTitle");
-        post.setViews(200);
+        Post post = new Post.Builder()
+                .title("TestTitle")
+                .views(200)
+                .build();
 
         createdPostId = RestService.getPostsService().addPost(post).
                 then().
