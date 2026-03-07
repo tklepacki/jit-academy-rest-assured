@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import  static org.hamcrest.Matchers.equalTo;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class UserTest {
 
@@ -23,6 +24,7 @@ public class UserTest {
         when().
                 get("https://reqres.in/api/users?page=2").
                 then().
+                body(matchesJsonSchemaInClasspath("schemas/userList.json")).
                 statusCode(200).
                 log().all();
     }
