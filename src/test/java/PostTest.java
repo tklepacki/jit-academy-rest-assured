@@ -1,4 +1,6 @@
 import org.junit.jupiter.api.*;
+
+import factories.PostTestDatafactory;
 import posts.Post;
 
 import static io.restassured.RestAssured.withArgs;
@@ -6,8 +8,8 @@ import static org.hamcrest.Matchers.*;
 
 public class PostTest {
 
-    private final Post addPostBody = FileHelper.generateObjectFromResource("addPostBody.json", Post.class);
-    private final Post editPostBody = FileHelper.generateObjectFromResource("editPostBody.json", Post.class);
+    private final Post addPostBody = PostTestDatafactory.createPost();
+    private final Post editPostBody = PostTestDatafactory.updatedPost();
 
     private String createdPostId;
 
