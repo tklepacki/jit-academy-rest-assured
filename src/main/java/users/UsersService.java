@@ -16,6 +16,15 @@ public class UsersService implements IUsersService {
             addHeader("x-api-key", API_KEY).
             build();
 
+    public Response getUser(Integer userId) {
+        Response response = given().
+                spec(requestSpec).
+                pathParam("userId", userId).
+                when().
+                get("{userId}");
+        return response;
+    }
+
     public Response getUserList(Integer pageId) {
         Response response = given().
                 spec(requestSpec).
