@@ -6,6 +6,15 @@ import static org.hamcrest.Matchers.*;
 
 public class PostTest {
 
+    private String createdPostId;
+
+    @AfterEach
+    void cleanup() {
+        if (createdPostId != null) {
+            RestService.getPostsService().deletePost(createdPostId);
+        }
+    }
+
     @Test
     public void addPostTest() {
 
@@ -13,7 +22,7 @@ public class PostTest {
         post.setTitle("TestTitle");
         post.setViews(200);
 
-        String addedPostId = RestService.getPostsService().addPost(post).
+        createdPostId = RestService.getPostsService().addPost(post).
                 then().
                 body("views", equalTo(post.getViews())).
                 body("title", equalTo(post.getTitle())).
@@ -21,11 +30,43 @@ public class PostTest {
                 extract().
                 path("id");
 
-        RestService.getPostsService().getPost(addedPostId).
+        RestService.getPostsService().getPost(createdPostId).
                 then().
-                body("id", equalTo(addedPostId)).
+                body("id", equalTo(createdPostId)).
                 body("views", equalTo(post.getViews())).
                 body("title", equalTo(post.getTitle())).
+                statusCode(200);
+    }
+
+    @Test
+    public void editPostTest() {
+
+        Post post = new Post();
+        post.setTitle("TestTitle");
+        post.setViews(200);
+
+        createdPostId = RestService.getPostsService().addPost(post).
+                then().
+                statusCode(201).
+                extract().
+                path("id");
+
+        Post updatedPost = new Post();
+        updatedPost.setTitle("TestTitleUpdated");
+        updatedPost.setViews(300);
+
+        RestService.getPostsService().editPost(createdPostId, updatedPost).
+                then().
+                body("id", equalTo(createdPostId)).
+                body("views", equalTo(updatedPost.getViews())).
+                body("title", equalTo(updatedPost.getTitle())).
+                statusCode(200);
+
+        RestService.getPostsService().getPost(createdPostId).
+                then().
+                body("id", equalTo(createdPostId)).
+                body("views", equalTo(updatedPost.getViews())).
+                body("title", equalTo(updatedPost.getTitle())).
                 statusCode(200);
     }
 
@@ -36,7 +77,7 @@ public class PostTest {
         post.setTitle("TestTitle");
         post.setViews(200);
 
-        String addedPostId = RestService.getPostsService().addPost(post).
+        createdPostId = RestService.getPostsService().addPost(post).
                 then().
                 statusCode(201).
                 extract().
@@ -44,9 +85,33 @@ public class PostTest {
 
         RestService.getPostsService().getPostList().
                 then().
-                body("find { it.id == '%s' }.id", withArgs(addedPostId), equalTo(addedPostId)).
-                body("find { it.id == '%s' }.title", withArgs(addedPostId), equalTo(post.getTitle())).
-                body("find { it.id == '%s' }.views", withArgs(addedPostId), equalTo(post.getViews())).
+                body("find { it.id == '%s' }.id", withArgs(createdPostId), equalTo(createdPostId)).
+                body("find { it.id == '%s' }.title", withArgs(createdPostId), equalTo(post.getTitle())).
+                body("find { it.id == '%s' }.views", withArgs(createdPostId), equalTo(post.getViews())).
                 statusCode(200);
+    }
+
+    @Test
+    public void deletePostTest() {
+
+        Post post = new Post();
+        post.setTitle("TestTitle");
+        post.setViews(200);
+
+        createdPostId = RestService.getPostsService().addPost(post).
+                then().
+                statusCode(201).
+                extract().
+                path("id");
+
+        RestService.getPostsService().deletePost(createdPostId).
+                then().
+                statusCode(200);
+
+        RestService.getPostsService().getPostList().
+                then().
+                body("id", not(hasItems(createdPostId)));
+
+        createdPostId = null;
     }
 }
