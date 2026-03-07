@@ -25,5 +25,5 @@ public abstract class BaseTest {
                 expectStatusCode(200).
                 expectContentType("application/json;charset=UTF-8").
                 build();
-    }
+}
 }
