@@ -1,11 +1,11 @@
-import common.BaseTest;
-
 import org.junit.jupiter.api.*;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
+
+import common.BaseTest;
 
 public class UserTest extends BaseTest {
 
@@ -19,8 +19,13 @@ public class UserTest extends BaseTest {
                 get("/{userId}").
 
                 then().
-                spec(responseSpec).
                 body(matchesJsonSchemaInClasspath("schemas/user.json")).
+                body("data.id", equalTo(2)).
+                body("data.email", equalTo("janet.weaver@reqres.in")).
+                body("data.first_name", equalTo("Janet")).
+                body("data.last_name", equalTo("Weaver")).
+                body("data.avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
+                spec(responseSpec).
                 log().all();
     }
 
