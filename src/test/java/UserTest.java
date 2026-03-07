@@ -20,11 +20,12 @@ public class UserTest extends BaseTest {
 
                 then().
                 body(matchesJsonSchemaInClasspath("schemas/user.json")).
-                body("data.id", equalTo(2)).
-                body("data.email", equalTo("janet.weaver@reqres.in")).
-                body("data.first_name", equalTo("Janet")).
-                body("data.last_name", equalTo("Weaver")).
-                body("data.avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
+                rootPath("data").
+                body("id", equalTo(2)).
+                body("email", equalTo("janet.weaver@reqres.in")).
+                body("first_name", equalTo("Janet")).
+                body("last_name", equalTo("Weaver")).
+                body("avatar", equalTo("https://reqres.in/img/faces/2-image.jpg")).
                 spec(responseSpec).
                 log().all();
     }
@@ -45,16 +46,18 @@ public class UserTest extends BaseTest {
                 body("total", equalTo(12)).
                 body("total_pages", equalTo(2)).
 
-                body("data.id[0]", equalTo(7)).
-                body("data.email[0]", equalTo("michael.lawson@reqres.in")).
-                body("data.first_name[0]", equalTo("Michael")).
-                body("data.last_name[0]", equalTo("Lawson")).
-                body("data.avatar[0]", equalTo("https://reqres.in/img/faces/7-image.jpg")).
+                rootPath("data[0]").
+                body("id", equalTo(7)).
+                body("email", equalTo("michael.lawson@reqres.in")).
+                body("first_name", equalTo("Michael")).
+                body("last_name", equalTo("Lawson")).
+                body("avatar", equalTo("https://reqres.in/img/faces/7-image.jpg")).
 
-                body("data.id", hasItems(7, 8, 9, 10, 11, 12)).
-                body("data.email", hasItems("michael.lawson@reqres.in", "lindsay.ferguson@reqres.in", "tobias.funke@reqres.in", "byron.fields@reqres.in", "george.edwards@reqres.in", "rachel.howell@reqres.in")).
-                body("data.first_name", hasItems("Michael", "Lindsay", "Tobias", "Byron", "George", "Rachel")).
-                body("data.last_name", hasItems("Lawson", "Ferguson", "Funke", "Fields", "Edwards", "Howell")).
+                rootPath("data").
+                body("id", hasItems(7, 8, 9, 10, 11, 12)).
+                body("email", hasItems("michael.lawson@reqres.in", "lindsay.ferguson@reqres.in", "tobias.funke@reqres.in", "byron.fields@reqres.in", "george.edwards@reqres.in", "rachel.howell@reqres.in")).
+                body("first_name", hasItems("Michael", "Lindsay", "Tobias", "Byron", "George", "Rachel")).
+                body("last_name", hasItems("Lawson", "Ferguson", "Funke", "Fields", "Edwards", "Howell")).
                 spec(responseSpec).
                 log().all();
     }
